@@ -1,5 +1,6 @@
 package pl.wsb.fitnesstracker.healthmetrics;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,39 +11,34 @@ import pl.wsb.fitnesstracker.user.api.User;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Health_Metrics")
+@Table(name = "health_metrics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = "user")
+@ToString
 public class HealthMetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Nullable
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "date", nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
 
-    @Column(name = "weight", nullable = false)
-    private float weight;
+    @Column(nullable = false)
+    private double weight;
 
-    @Column(name = "height", nullable = false)
-    private float height;
+    @Column(nullable = false)
+    private double height;
 
-    @Column(name = "heartRate", nullable = false)
+    @Column(name = "heart_rate", nullable = false)
     private int heartRate;
 
-    public HealthMetrics(
-            final User user,
-            final LocalDate date,
-            final float weight,
-            final float height,
-            final int heartRate
-    ) {
+    public HealthMetrics(User user, LocalDate date, double weight, double height, int heartRate) {
         this.user = user;
         this.date = date;
         this.weight = weight;
